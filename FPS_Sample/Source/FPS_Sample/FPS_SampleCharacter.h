@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CommonCharacter.h"
 #include "FPS_SampleCharacter.generated.h"
 
 class UInputComponent;
@@ -18,7 +19,7 @@ class USoundBase;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseItem);
 
 UCLASS(config=Game)
-class AFPS_SampleCharacter : public ACharacter
+class AFPS_SampleCharacter : public ACommonCharacter
 {
 	GENERATED_BODY()
 
