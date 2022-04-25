@@ -2,6 +2,7 @@
 
 
 #include "CommonCharacter.h"
+#include "Net/UnrealNetwork.h"
 
 // Sets default values
 ACommonCharacter::ACommonCharacter()
@@ -32,3 +33,31 @@ void ACommonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 }
 
+void ACommonCharacter::VaryHp(const int& Value)
+{
+	int NewHp = CurrentHp + Value;
+
+	if (NewHp < 0)
+	{
+		// Dead;
+	}
+
+	CurrentHp = NewHp;
+}
+
+
+void ACommonCharacter::OnRep_Hp()
+{
+	if (IsNetMode(NM_DedicatedServer))
+	{
+		return;
+	}
+
+	// 이벤트들 호출
+}
+
+void ACommonCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(ACommonCharacter, CurrentHp);
+}

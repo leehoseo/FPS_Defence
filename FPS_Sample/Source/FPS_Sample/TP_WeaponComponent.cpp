@@ -23,6 +23,11 @@ void UTP_WeaponComponent::Fire()
 		return;
 	}
 
+	if (false == IsExistBullet())
+	{
+		return;
+	}
+
 	// Try and fire a projectile
 	if (ProjectileClass != nullptr)
 	{
@@ -59,6 +64,19 @@ void UTP_WeaponComponent::Fire()
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
+
+	DecreaseBullet();
+}
+
+void UTP_WeaponComponent::Reload()
+{
+	CurrentBullet = MaxBullet;
+}
+
+void UTP_WeaponComponent::BeginPlay()
+{
+	UActorComponent::BeginPlay();
+	Reload();
 }
 
 void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -66,7 +84,8 @@ void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	if(Character != nullptr)
 	{
 		// Unregister from the OnUseItem Event
-		Character->OnUseItem.RemoveDynamic(this, &UTP_WeaponComponent::Fire);
+		Character->UseAction.RemoveDynamic(this, &UTP_WeaponComponent::Fire);
+		Character->ReloadAction.RemoveDynamic(this, &UTP_WeaponComponent::Reload);
 	}
 }
 
@@ -80,7 +99,23 @@ void UTP_WeaponComponent::AttachWeapon(AFPS_SampleCharacter* TargetCharacter)
 		GetOwner()->AttachToComponent(Character->GetMesh1P(),AttachmentRules, FName(TEXT("GripPoint")));
 
 		// Register so that Fire is called every time the character tries to use the item being held
-		Character->OnUseItem.AddDynamic(this, &UTP_WeaponComponent::Fire);
+		Character->UseAction.AddDynamic(this, &UTP_WeaponComponent::Fire);
+		Character->ReloadAction.AddDynamic(this, &UTP_WeaponComponent::Reload);
 	}
 }
 
+bool UTP_WeaponComponent::IsExistBullet()
+{
+	return 0 < CurrentBullet;
+}
+
+void UTP_WeaponComponent::DecreaseBullet()
+{
+	if (false == IsExistBullet())
+	{
+		// ¿¡·¯
+		return;
+	}
+
+	--CurrentBullet;
+}

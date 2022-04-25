@@ -57,6 +57,7 @@ void AFPS_SampleCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 
 	// Bind fire event
 	PlayerInputComponent->BindAction("PrimaryAction", IE_Pressed, this, &AFPS_SampleCharacter::OnPrimaryAction);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AFPS_SampleCharacter::OnReloadAction);
 
 	// Enable touchscreen input
 	EnableTouchscreenMovement(PlayerInputComponent);
@@ -77,7 +78,13 @@ void AFPS_SampleCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 void AFPS_SampleCharacter::OnPrimaryAction()
 {
 	// Trigger the OnItemUsed Event
-	OnUseItem.Broadcast();
+	UseAction.Broadcast();
+}
+
+void AFPS_SampleCharacter::OnReloadAction()
+{
+	// Trigger the OnItemUsed Event
+	ReloadAction.Broadcast();
 }
 
 void AFPS_SampleCharacter::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location)

@@ -3,14 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CommonCharacter.h"
-#include "MonsterCharacter.generated.h"
+#include "Blueprint/UserWidget.h"
+#include "CommonWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FPS_SAMPLE_API AMonsterCharacter : public ACommonCharacter
+class FPS_SAMPLE_API UCommonWidget : public UUserWidget
 {
 	GENERATED_BODY()
+	
 };

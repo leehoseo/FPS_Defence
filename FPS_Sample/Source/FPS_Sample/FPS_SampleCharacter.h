@@ -16,7 +16,8 @@ class USoundBase;
 
 // Declaration of the delegate that will be called when the Primary Action is triggered
 // It is declared as dynamic so it can be accessed also in Blueprints
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUseItem);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUseAction);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FReloadAction);
 
 UCLASS(config=Game)
 class AFPS_SampleCharacter : public ACommonCharacter
@@ -44,11 +45,17 @@ public:
 
 	/** Delegate to whom anyone can subscribe to receive this event */
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FOnUseItem OnUseItem;
+	FUseAction UseAction;
+
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FReloadAction ReloadAction;
 protected:
 	
 	/** Fires a projectile. */
-	void OnPrimaryAction();
+	void OnPrimaryAction();	
+	
+	/** Reload a projectile. */
+	void OnReloadAction();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

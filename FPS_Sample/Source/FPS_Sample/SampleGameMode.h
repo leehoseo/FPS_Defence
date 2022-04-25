@@ -3,14 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CommonCharacter.h"
-#include "MonsterCharacter.generated.h"
+#include "GameFramework/GameMode.h"
+#include "SampleGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FPS_SAMPLE_API AMonsterCharacter : public ACommonCharacter
+class FPS_SAMPLE_API ASampleGameMode : public AGameMode
 {
 	GENERATED_BODY()
+	
 };

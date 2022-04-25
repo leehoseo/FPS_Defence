@@ -41,13 +41,26 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
 
+	/** Make the weapon Fire a Projectile */
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void Reload();
 protected:
 	/** Ends gameplay for this component. */
 	UFUNCTION()
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 		
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+private:
+	void DecreaseBullet();
+	bool IsExistBullet();
 
 private:
 	/** The Character holding this weapon*/
 	AFPS_SampleCharacter* Character;
+
+	UPROPERTY(EditAnywhere, Category = Item, meta = (AllowPrivateAccess = "true"))
+	int MaxBullet = 30;
+
+	int CurrentBullet = 0;
 };

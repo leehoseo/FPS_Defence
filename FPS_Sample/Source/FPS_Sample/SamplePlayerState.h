@@ -14,4 +14,9 @@ class FPS_SAMPLE_API ASamplePlayerState : public APlayerState
 {
 	GENERATED_BODY()
 	
+public:
+	void VaryMoney(const int& Value) { Money += Value; };
+
+private:
+	int Money = 0;
 };
