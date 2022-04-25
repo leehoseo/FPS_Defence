@@ -87,6 +87,8 @@ ACommonCharacter* ASpawnerActor::CloneActor()
 
 	ACommonCharacter* Result =  GetWorld()->SpawnActor<ACommonCharacter>(OriginClass, Location, Rotation, Params);
 
+	Result->SpawnDefaultController();
+
 	return Cast<ACommonCharacter>(Result);
 }
 
