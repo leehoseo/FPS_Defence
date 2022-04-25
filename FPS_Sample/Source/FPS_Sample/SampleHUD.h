@@ -7,6 +7,8 @@
 #include "SampleHUD.generated.h"
 
 class UCommonWidget;
+class UTP_WeaponComponent;
+
 /**
  * 
  */
@@ -17,6 +19,9 @@ class FPS_SAMPLE_API ASampleHUD : public AHUD
 
 public:
 	void BeginPlay() override;
+	/** Ends gameplay for this component. */
+	UFUNCTION()
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UPROPERTY(EditAnywhere, Category = "Widget")
 	FName StartWidget;
@@ -32,6 +37,13 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UCommonWidget* GetCurrentWidget();
 
+	UFUNCTION()
+	void UpdateWidget(const UTP_WeaponComponent* WeaponComponent);
+
+
+	void AttachWeapon(UTP_WeaponComponent* WeaponComponent);
+
 private:
 	UCommonWidget* CurrentWidget = nullptr;
+	UTP_WeaponComponent* TargetWeaponComponent = nullptr;
 };

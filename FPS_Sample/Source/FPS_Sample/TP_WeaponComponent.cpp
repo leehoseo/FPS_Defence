@@ -7,7 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "SampleHUD.h"
 // Sets default values for this component's properties
 UTP_WeaponComponent::UTP_WeaponComponent()
 {
@@ -70,13 +70,12 @@ void UTP_WeaponComponent::Fire()
 
 void UTP_WeaponComponent::Reload()
 {
-	CurrentBullet = MaxBullet;
+	VaryBullet(MaxBullet - CurrentBullet);
 }
 
 void UTP_WeaponComponent::BeginPlay()
 {
 	UActorComponent::BeginPlay();
-	Reload();
 }
 
 void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -86,6 +85,7 @@ void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		// Unregister from the OnUseItem Event
 		Character->UseAction.RemoveDynamic(this, &UTP_WeaponComponent::Fire);
 		Character->ReloadAction.RemoveDynamic(this, &UTP_WeaponComponent::Reload);
+		//BulletWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateWidget);
 	}
 }
 
@@ -101,6 +101,10 @@ void UTP_WeaponComponent::AttachWeapon(AFPS_SampleCharacter* TargetCharacter)
 		// Register so that Fire is called every time the character tries to use the item being held
 		Character->UseAction.AddDynamic(this, &UTP_WeaponComponent::Fire);
 		Character->ReloadAction.AddDynamic(this, &UTP_WeaponComponent::Reload);
+
+		ASampleHUD* Hud = Cast<ASampleHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
+		Hud->AttachWeapon(this);
+		Reload();
 	}
 }
 
@@ -117,5 +121,29 @@ void UTP_WeaponComponent::DecreaseBullet()
 		return;
 	}
 
-	--CurrentBullet;
+	VaryBullet(-1);
+}
+
+void UTP_WeaponComponent::VaryBullet(int VaryBullet)
+{
+	int NewBullet = CurrentBullet + VaryBullet;
+
+	if (NewBullet < 0 || MaxBullet < NewBullet)
+	{
+		return;
+	}
+
+	CurrentBullet = NewBullet;
+	BulletWidgetAction.Broadcast(this);
+}
+
+void UTP_WeaponComponent::GetBulletInfo(int& OutMaxBullet, int& OutCurrentBullet) const
+{
+	if (nullptr == Character)
+	{
+		return;
+	}
+
+	OutMaxBullet = MaxBullet;
+	OutCurrentBullet = CurrentBullet;
 }

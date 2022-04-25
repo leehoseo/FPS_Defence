@@ -3,13 +3,24 @@
 
 #include "SampleHUD.h"
 #include "CommonWidget.h"
+#include "Kismet/GameplayStatics.h"
+#include "TP_WeaponComponent.h"
 
 void ASampleHUD::BeginPlay()
 {
 	Super::BeginPlay();
-
     ChangeWidget(StartWidget);
 }
+
+void ASampleHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    if (TargetWeaponComponent != nullptr)
+    {
+        // Unregister from the OnUseItem Event
+        TargetWeaponComponent->BulletWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateWidget);
+    }
+}
+
 
 void ASampleHUD::ChangeWidget(FName WidgetKey)
 {
@@ -43,4 +54,15 @@ bool ASampleHUD::IsExistWidget(FName WidgetKey) const
 UCommonWidget* ASampleHUD::GetCurrentWidget()
 {
     return CurrentWidget;
+}
+
+void ASampleHUD::UpdateWidget(const UTP_WeaponComponent* WeaponComponent)
+{
+    CurrentWidget->UpdateWidget(WeaponComponent);
+}
+
+void ASampleHUD::AttachWeapon(UTP_WeaponComponent* WeaponComponent)
+{
+    TargetWeaponComponent = WeaponComponent;
+    TargetWeaponComponent->BulletWidgetAction.AddDynamic(this, &ASampleHUD::UpdateWidget);
 }

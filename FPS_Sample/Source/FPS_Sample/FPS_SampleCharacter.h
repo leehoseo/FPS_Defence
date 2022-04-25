@@ -13,6 +13,7 @@ class USceneComponent;
 class UCameraComponent;
 class UAnimMontage;
 class USoundBase;
+class AFPS_SampleCharacter;
 
 // Declaration of the delegate that will be called when the Primary Action is triggered
 // It is declared as dynamic so it can be accessed also in Blueprints
@@ -49,6 +50,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FReloadAction ReloadAction;
+	
 protected:
 	
 	/** Fires a projectile. */

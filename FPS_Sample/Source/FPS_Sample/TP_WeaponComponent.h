@@ -7,6 +7,9 @@
 #include "TP_WeaponComponent.generated.h"
 
 class AFPS_SampleCharacter;
+class UTP_WeaponComponent;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWidgetAction, const UTP_WeaponComponent*, _Owner);
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FPS_SAMPLE_API UTP_WeaponComponent : public UActorComponent
@@ -44,6 +47,12 @@ public:
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void Reload();
+
+	void GetBulletInfo( int& OutMaxBullet, int& OutCurrentBullet ) const;
+
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FWidgetAction BulletWidgetAction;
+
 protected:
 	/** Ends gameplay for this component. */
 	UFUNCTION()
@@ -54,7 +63,7 @@ protected:
 private:
 	void DecreaseBullet();
 	bool IsExistBullet();
-
+	void VaryBullet(int VaryBullet);
 private:
 	/** The Character holding this weapon*/
 	AFPS_SampleCharacter* Character;

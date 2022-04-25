@@ -6,6 +6,8 @@
 #include "CommonWidget.h"
 #include "BattleWidget.generated.h"
 
+class UTextBlock;
+class UTP_WeaponComponent;
 /**
  * 
  */
@@ -15,8 +17,10 @@ class FPS_SAMPLE_API UBattleWidget : public UCommonWidget
 	GENERATED_BODY()
 	
 public:
-	//UPROPERTY(meta = (BIndWIdget))
-	//UTextBlock* TextBlock_Bullet = nullptr;
+	UPROPERTY(meta = (BIndWIdget))
+	UTextBlock* TextBlock_Bullet = nullptr;
 
 	void UpdateBullet( const int MaxBullet, const int CurrentBullet );
+
+	virtual void UpdateWidget(const UTP_WeaponComponent* WeaponComponent);
 };

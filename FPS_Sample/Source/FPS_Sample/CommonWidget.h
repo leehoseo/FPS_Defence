@@ -9,9 +9,12 @@
 /**
  * 
  */
+class UTP_WeaponComponent;
+
 UCLASS()
 class FPS_SAMPLE_API UCommonWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+public:
+	virtual void UpdateWidget(const UTP_WeaponComponent* WeaponComponent) {};
 };
