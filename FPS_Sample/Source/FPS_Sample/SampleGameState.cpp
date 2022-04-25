@@ -3,3 +3,7 @@
 
 #include "SampleGameState.h"
 
+ASampleGameState::ASampleGameState()
+{
+
+}
