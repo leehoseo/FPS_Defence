@@ -3,16 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameState.h"
-#include "SampleGameState.generated.h"
+#include "CommonWidget.h"
+#include "ShopWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FPS_SAMPLE_API ASampleGameState : public AGameState
+class FPS_SAMPLE_API UShopWidget : public UCommonWidget
 {
 	GENERATED_BODY()
-public:
-	ASampleGameState();
+	
 };

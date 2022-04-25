@@ -3,16 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameState.h"
-#include "SampleGameState.generated.h"
+#include "CommonWidget.h"
+#include "TimerWidget.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FPS_SAMPLE_API ASampleGameState : public AGameState
+class FPS_SAMPLE_API UTimerWidget : public UCommonWidget
 {
 	GENERATED_BODY()
-public:
-	ASampleGameState();
+	
 };
