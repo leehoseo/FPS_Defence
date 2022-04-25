@@ -3,32 +3,29 @@
 
 #include "HitComponent.h"
 
-// Sets default values for this component's properties
+
 UHitComponent::UHitComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
-
-// Called when the game starts
 void UHitComponent::BeginPlay()
 {
-	Super::BeginPlay();
+	UPrimitiveComponent::BeginPlay();
 
-	// ...
-	
+	OnComponentBeginOverlap.AddDynamic(this, &UHitComponent::OnBeginOverlap);
 }
 
-
-// Called every frame
-void UHitComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UHitComponent::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	// Checking if it is a First Person Character overlapping
+	//AFPS_SampleCharacter* Character = Cast<AFPS_SampleCharacter>(OtherActor);
+	//if (Character != nullptr)
+	//{
+	//	// Notify that the actor is being picked up
+	//	OnPickUp.Broadcast(Character);
 
-	// ...
+	//	// Unregister from the Overlap Event so it is no longer triggered
+	//	OnComponentBeginOverlap.RemoveAll(this);
+	//}
 }
-
