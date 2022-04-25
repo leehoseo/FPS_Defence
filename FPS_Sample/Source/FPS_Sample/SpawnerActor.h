@@ -73,4 +73,6 @@ private:
 
 	float SpawnTick = 0;
 	float NextDataTick = 0;
+
+	const FVector FindNonOverlappedLocation(const FVector& InLocation, const int CallStack);
 };

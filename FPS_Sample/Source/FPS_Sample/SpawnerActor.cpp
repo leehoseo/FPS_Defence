@@ -76,10 +76,28 @@ ACommonCharacter* ASpawnerActor::CloneActor()
 	//Params.bAllowDuringConstructionScript = true;
 	//Params.OverrideLevel = GetOwner()->GetLevel();
 	//Params.Name = "Monster";
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 	Params.Template = OriginActor->GetDefaultObject<AActor>();
 	Params.Owner = this;
 
-	FVector Location = GetActorLocation();
+	FVector Location = FindNonOverlappedLocation(GetActorLocation(), 0);
+	const FRotator& Rotation = GetActorRotation();
+
+	Location.Z += OriginActor->GetDefaultObject<AActor>()->GetSimpleCollisionHalfHeight();
+
+	ACommonCharacter* Result =  GetWorld()->SpawnActor<ACommonCharacter>(OriginClass, Location, Rotation, Params);
+
+	return Cast<ACommonCharacter>(Result);
+}
+
+const FVector ASpawnerActor::FindNonOverlappedLocation(const FVector& InLocation, const int CallStack)
+{
+	if (10 <= CallStack)
+	{
+		return InLocation;
+	}
+
+	FVector Location = InLocation;
 
 	float RangeXValue = RangeX / Constant;
 	float RangeYValue = RangeY / Constant;
@@ -88,8 +106,37 @@ ACommonCharacter* ASpawnerActor::CloneActor()
 	Location.X += RandX;
 	Location.Y += RandY;
 
-	const FRotator& Rotation = GetActorRotation();
-	ACommonCharacter* Result =  GetWorld()->SpawnActor<ACommonCharacter>(OriginClass, Location, Rotation, Params);
+	FHitResult OutHit;
+	{
+		FVector Start = Location;
+		Start.Z += 1000.f;
 
-	return Cast<ACommonCharacter>(Result);
+		FVector TargetVector = Location - Start;
+		TargetVector.Normalize();
+
+		FVector End = Start + (TargetVector * 5000.f);
+
+		FCollisionQueryParams CollisionParams;
+		bool IsHit = GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECC_WorldStatic, CollisionParams);
+
+		EObjectFlags::RF_Transactional;
+		if (true == IsHit)
+		{
+			// 이동 가능한 것이면위치를 다시 잡음
+			if (RF_Transactional == OutHit.GetActor()->GetFlags())
+			{
+				FVector NewMoveVector = Location - OutHit.Location;
+				NewMoveVector.Normalize();
+
+				int RandConstant = 10 + ( FMath::RandRange(0, 10) * Constant);
+
+				FVector NewLocation = OutHit.Location + (NewMoveVector.Normalize() * RandConstant);
+				return FindNonOverlappedLocation(NewLocation , CallStack + 1);
+			}
+
+			Location = OutHit.Location;
+		}
+
+		return Location;
+	}
 }
