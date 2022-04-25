@@ -13,4 +13,14 @@ UCLASS()
 class FPS_SAMPLE_API AMonsterCharacter : public ACommonCharacter
 {
 	GENERATED_BODY()
+
+public:
+	AMonsterCharacter();
+
+public:
+	virtual void OnDead(ACommonCharacter* AttackerCharacter);
+
+private:
+	UPROPERTY(EditAnywhere, Category = Reward, meta = (AllowPrivateAccess = "true"))
+	int Reward = 10;
 };

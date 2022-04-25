@@ -9,7 +9,7 @@
 class AFPS_SampleCharacter;
 class UTP_WeaponComponent;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWidgetAction, const UTP_WeaponComponent*, _Owner);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWeaponAction, const UTP_WeaponComponent*, _Owner);
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FPS_SAMPLE_API UTP_WeaponComponent : public UActorComponent
@@ -51,7 +51,7 @@ public:
 	void GetBulletInfo( int& OutMaxBullet, int& OutCurrentBullet ) const;
 
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
-	FWidgetAction BulletWidgetAction;
+	FWeaponAction BulletWidgetAction;
 
 protected:
 	/** Ends gameplay for this component. */

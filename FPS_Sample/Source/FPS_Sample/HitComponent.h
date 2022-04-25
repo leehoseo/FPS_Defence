@@ -6,6 +6,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "HitComponent.generated.h"
 
+class ACommonCharacter;
 /**
  * 
  */
@@ -17,11 +18,10 @@ class FPS_SAMPLE_API UHitComponent : public UPrimitiveComponent
 public:
 	UHitComponent();
 
+	void OnHit(ACommonCharacter* AttackerCharacter);
+
 protected:
 
 	/** Called when the game starts */
 	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

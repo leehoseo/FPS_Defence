@@ -7,7 +7,6 @@
 #include "BattleWidget.generated.h"
 
 class UTextBlock;
-class UTP_WeaponComponent;
 /**
  * 
  */
@@ -20,7 +19,10 @@ public:
 	UPROPERTY(meta = (BIndWIdget))
 	UTextBlock* TextBlock_Bullet = nullptr;
 
-	void UpdateBullet( const int MaxBullet, const int CurrentBullet );
+	UPROPERTY(meta = (BIndWIdget))
+	UTextBlock* TextBlock_Money = nullptr;
+	
 
-	virtual void UpdateWidget(const UTP_WeaponComponent* WeaponComponent);
+	void UpdateBullet( const int MaxBullet, const int CurrentBullet );
+	void UpdateMoney( const int Money);
 };

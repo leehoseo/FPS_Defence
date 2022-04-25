@@ -15,8 +15,8 @@ ACommonCharacter::ACommonCharacter()
 // Called when the game starts or when spawned
 void ACommonCharacter::BeginPlay()
 {
+	CurrentHp = MaxHp;
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -37,14 +37,13 @@ void ACommonCharacter::VaryHp(const int& Value)
 {
 	int NewHp = CurrentHp + Value;
 
-	if (NewHp < 0)
+	if (NewHp < 0 || MaxHp < NewHp )
 	{
-		// Dead;
+		return;
 	}
 
 	CurrentHp = NewHp;
 }
-
 
 void ACommonCharacter::OnRep_Hp()
 {
@@ -60,4 +59,16 @@ void ACommonCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ACommonCharacter, CurrentHp);
+}
+
+float ACommonCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	VaryHp(-DamageAmount);
+
+	if (CurrentHp <= 0)
+	{
+		OnDead(Cast<ACommonCharacter>(DamageCauser));
+	}
+
+	return Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 }

@@ -2,7 +2,8 @@
 
 
 #include "HitComponent.h"
-
+#include "CommonCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 UHitComponent::UHitComponent()
 {
@@ -12,20 +13,15 @@ UHitComponent::UHitComponent()
 void UHitComponent::BeginPlay()
 {
 	UPrimitiveComponent::BeginPlay();
-
-	OnComponentBeginOverlap.AddDynamic(this, &UHitComponent::OnBeginOverlap);
 }
 
-void UHitComponent::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void UHitComponent::OnHit(ACommonCharacter* AttackerCharacter)
 {
 	// Checking if it is a First Person Character overlapping
-	//AFPS_SampleCharacter* Character = Cast<AFPS_SampleCharacter>(OtherActor);
-	//if (Character != nullptr)
-	//{
-	//	// Notify that the actor is being picked up
-	//	OnPickUp.Broadcast(Character);
-
-	//	// Unregister from the Overlap Event so it is no longer triggered
-	//	OnComponentBeginOverlap.RemoveAll(this);
-	//}
+	ACommonCharacter* Character = Cast<ACommonCharacter>(GetOwner());
+	if ( nullptr != Character)
+	{
+		TSubclassOf<UDamageType> TempDamageType;
+		UGameplayStatics::ApplyDamage(GetOwner(), 1.f, AttackerCharacter->GetController(), AttackerCharacter, TempDamageType);
+	}
 }

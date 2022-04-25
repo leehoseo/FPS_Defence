@@ -7,6 +7,7 @@
 #include "FPS_SampleProjectile.generated.h"
 
 class USphereComponent;
+class AFPS_SampleCharacter;
 class UProjectileMovementComponent;
 
 UCLASS(config=Game)
@@ -33,5 +34,8 @@ public:
 	USphereComponent* GetCollisionComp() const { return CollisionComp; }
 	/** Returns ProjectileMovement subobject **/
 	UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+
+	/** The Character holding this weapon*/
+	AFPS_SampleCharacter* Character = nullptr;
 };
 

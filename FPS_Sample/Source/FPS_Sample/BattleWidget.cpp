@@ -3,7 +3,6 @@
 
 #include "BattleWidget.h"
 #include "UMG/Public/Components/TextBlock.h"
-#include "TP_WeaponComponent.h"
 #include "GameFramework/Actor.h"
 
 void UBattleWidget::UpdateBullet(const int MaxBullet, const int CurrentBullet)
@@ -22,11 +21,11 @@ void UBattleWidget::UpdateBullet(const int MaxBullet, const int CurrentBullet)
 	TextBlock_Bullet->SetText( FText::FromString(Text_Bullet));
 }
 
-void UBattleWidget::UpdateWidget(const UTP_WeaponComponent* WeaponComponent)
+void UBattleWidget::UpdateMoney(const int Money)
 {
-	int OutMaxBullet = 0;
-	int OutCurrentBullet = 0;
-	WeaponComponent->GetBulletInfo(OutMaxBullet, OutCurrentBullet);
+	FString Text_Money;
+	Text_Money.Append("Money : ");
+	Text_Money.Append(FString::FromInt(Money));
 
-	UpdateBullet(OutMaxBullet, OutCurrentBullet);
+	TextBlock_Money->SetText(FText::FromString(Text_Money));
 }

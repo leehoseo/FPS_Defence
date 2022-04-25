@@ -3,8 +3,10 @@
 
 #include "SampleHUD.h"
 #include "CommonWidget.h"
+#include "BattleWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "TP_WeaponComponent.h"
+#include "InventoryComponent.h"
 
 void ASampleHUD::BeginPlay()
 {
@@ -17,8 +19,15 @@ void ASampleHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
     if (TargetWeaponComponent != nullptr)
     {
         // Unregister from the OnUseItem Event
-        TargetWeaponComponent->BulletWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateWidget);
+        TargetWeaponComponent->BulletWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateBullet);
     }
+
+    if (TargetInventoryComponent != nullptr)
+    {
+        // Unregister from the OnUseItem Event
+        TargetInventoryComponent->MoneyWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateMoney);
+    }
+    
 }
 
 
@@ -56,13 +65,31 @@ UCommonWidget* ASampleHUD::GetCurrentWidget()
     return CurrentWidget;
 }
 
-void ASampleHUD::UpdateWidget(const UTP_WeaponComponent* WeaponComponent)
+void ASampleHUD::UpdateBullet(const UTP_WeaponComponent* WeaponComponent)
 {
-    CurrentWidget->UpdateWidget(WeaponComponent);
+    UBattleWidget* BattleWidget = Cast<UBattleWidget>(CurrentWidget);
+
+    int OutMaxBullet = 0;
+    int OutCurrentBullet = 0;
+    WeaponComponent->GetBulletInfo(OutMaxBullet, OutCurrentBullet);
+
+    BattleWidget->UpdateBullet(OutMaxBullet, OutCurrentBullet);
+}
+
+void ASampleHUD::UpdateMoney(const UInventoryComponent* InventoryComponent)
+{
+    UBattleWidget* BattleWidget = Cast<UBattleWidget>(CurrentWidget);
+    BattleWidget->UpdateMoney(InventoryComponent->GetCurrentMoney());
 }
 
 void ASampleHUD::AttachWeapon(UTP_WeaponComponent* WeaponComponent)
 {
     TargetWeaponComponent = WeaponComponent;
-    TargetWeaponComponent->BulletWidgetAction.AddDynamic(this, &ASampleHUD::UpdateWidget);
+    TargetWeaponComponent->BulletWidgetAction.AddDynamic(this, &ASampleHUD::UpdateBullet);
+}
+
+void ASampleHUD::AttachInventory(UInventoryComponent* InventoryComponent)
+{
+    TargetInventoryComponent = InventoryComponent;
+    TargetInventoryComponent->MoneyWidgetAction.AddDynamic(this, &ASampleHUD::UpdateMoney);
 }

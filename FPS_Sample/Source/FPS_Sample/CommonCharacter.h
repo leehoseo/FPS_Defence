@@ -36,8 +36,12 @@ public:
 	UPROPERTY(Transient, Replicated, ReplicatedUsing = OnRep_Hp)
 	int CurrentHp = 0;
 
+	UPROPERTY(EditAnywhere, Category = Character, meta = (AllowPrivateAccess = "true"))
 	int MaxHp = 10;
 
+	// 데미지 처리
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	virtual void OnDead(ACommonCharacter* AttackerCharacter) {};
 private:
 	int CharacterKey = 0;
 };

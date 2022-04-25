@@ -8,6 +8,7 @@
 
 class UCommonWidget;
 class UTP_WeaponComponent;
+class UInventoryComponent;
 
 /**
  * 
@@ -38,12 +39,17 @@ public:
 	UCommonWidget* GetCurrentWidget();
 
 	UFUNCTION()
-	void UpdateWidget(const UTP_WeaponComponent* WeaponComponent);
+	void UpdateBullet(const UTP_WeaponComponent* WeaponComponent);	
+	
+	UFUNCTION()
+	void UpdateMoney(const UInventoryComponent* InventoryComponent);
 
 
 	void AttachWeapon(UTP_WeaponComponent* WeaponComponent);
+	void AttachInventory(UInventoryComponent* InventoryComponent);
 
 private:
 	UCommonWidget* CurrentWidget = nullptr;
 	UTP_WeaponComponent* TargetWeaponComponent = nullptr;
+	UInventoryComponent* TargetInventoryComponent = nullptr;
 };
