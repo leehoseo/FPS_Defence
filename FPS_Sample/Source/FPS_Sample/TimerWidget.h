@@ -6,6 +6,7 @@
 #include "CommonWidget.h"
 #include "TimerWidget.generated.h"
 
+class UTextBlock;
 /**
  * 
  */
@@ -14,4 +15,11 @@ class FPS_SAMPLE_API UTimerWidget : public UCommonWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UTimerWidget();
+	void UpdateTimer(int Timer);
+
+
+	UPROPERTY(meta = (BIndWIdget))
+	UTextBlock* TextBlock_Timer = nullptr;
 };

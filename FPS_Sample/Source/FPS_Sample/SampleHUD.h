@@ -9,6 +9,7 @@
 class UCommonWidget;
 class UTP_WeaponComponent;
 class UInventoryComponent;
+class ASampleGameState;
 
 /**
  * 
@@ -44,12 +45,16 @@ public:
 	UFUNCTION()
 	void UpdateMoney(const UInventoryComponent* InventoryComponent);
 
+	UFUNCTION()
+	void UpdateTimer(const int Timer);
 
 	void AttachWeapon(UTP_WeaponComponent* WeaponComponent);
 	void AttachInventory(UInventoryComponent* InventoryComponent);
+	void AttachTimer(ASampleGameState* SampleGameState);
 
 private:
 	UCommonWidget* CurrentWidget = nullptr;
 	UTP_WeaponComponent* TargetWeaponComponent = nullptr;
 	UInventoryComponent* TargetInventoryComponent = nullptr;
+	ASampleGameState* TargetGameState = nullptr;
 };

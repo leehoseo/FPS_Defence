@@ -7,6 +7,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "TP_WeaponComponent.h"
 #include "InventoryComponent.h"
+#include "TimerWidget.h"
+#include "SampleGameState.h"
 
 void ASampleHUD::BeginPlay()
 {
@@ -27,7 +29,12 @@ void ASampleHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
         // Unregister from the OnUseItem Event
         TargetInventoryComponent->MoneyWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateMoney);
     }
-    
+
+    if (TargetGameState != nullptr)
+    {
+        // Unregister from the OnUseItem Event
+        TargetGameState->TimerWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateTimer);
+    }
 }
 
 
@@ -82,6 +89,16 @@ void ASampleHUD::UpdateMoney(const UInventoryComponent* InventoryComponent)
     BattleWidget->UpdateMoney(InventoryComponent->GetCurrentMoney());
 }
 
+void ASampleHUD::UpdateTimer(const int Timer )
+{
+    UTimerWidget* TimerWidget = Cast<UTimerWidget>(*WidgetList.Find("Timer"));
+
+    if (nullptr != TimerWidget)
+    {
+        TimerWidget->UpdateTimer(Timer);
+    }
+}
+
 void ASampleHUD::AttachWeapon(UTP_WeaponComponent* WeaponComponent)
 {
     TargetWeaponComponent = WeaponComponent;
@@ -92,4 +109,10 @@ void ASampleHUD::AttachInventory(UInventoryComponent* InventoryComponent)
 {
     TargetInventoryComponent = InventoryComponent;
     TargetInventoryComponent->MoneyWidgetAction.AddDynamic(this, &ASampleHUD::UpdateMoney);
+}
+
+void ASampleHUD::AttachTimer(ASampleGameState* SampleGameState)
+{
+    TargetGameState = SampleGameState;
+    TargetGameState->TimerWidgetAction.AddDynamic(this, &ASampleHUD::UpdateTimer);
 }
