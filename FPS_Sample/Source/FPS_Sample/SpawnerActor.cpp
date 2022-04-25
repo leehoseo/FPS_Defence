@@ -80,8 +80,11 @@ ACommonCharacter* ASpawnerActor::CloneActor()
 	Params.Owner = this;
 
 	FVector Location = GetActorLocation();
-	float RandX = FMath::RandRange(-RangeX, RangeX) * Constant;
-	float RandY = FMath::RandRange(-RangeY, RangeY) * Constant;
+
+	float RangeXValue = RangeX / Constant;
+	float RangeYValue = RangeY / Constant;
+	float RandX = FMath::RandRange(-RangeXValue, RangeXValue) * Constant;
+	float RandY = FMath::RandRange(-RangeYValue, RangeYValue) * Constant;
 	Location.X += RandX;
 	Location.Y += RandY;
 
