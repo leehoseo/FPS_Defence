@@ -17,5 +17,5 @@ void UTimerWidget::UpdateTimer(int Timer)
 	Text_Timer.Append(FString::FromInt(Timer));
 	Text_Timer.Append(" Sec ");
 
-	TextBlock_Timer->SetText(FText::FromString(Text_Timer));
+	//TextBlock_Timer->SetText(FText::FromString(Text_Timer));
 }

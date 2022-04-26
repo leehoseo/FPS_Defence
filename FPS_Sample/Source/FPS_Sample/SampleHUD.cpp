@@ -112,7 +112,7 @@ void ASampleHUD::UpdateMoney(const UInventoryComponent* InventoryComponent)
 
 void ASampleHUD::UpdateTimer(const int Timer )
 {
-    UTimerWidget* TimerWidget = Cast<UTimerWidget>(*WidgetList.Find("Timer"));
+    UTimerWidget* TimerWidget = Cast<UTimerWidget>(WidgetList.Find("Timer")->GetDefaultObject());
 
     if (nullptr != TimerWidget)
     {
@@ -141,8 +141,8 @@ void ASampleHUD::UpdateOnDead(const AFPS_SampleCharacter* SampleCharacter)
 
 void ASampleHUD::CreateShopItem(FShopItemData* ShopItemData)
 {
-    UCommonWidget* CommonWidget = Cast<UShopWidget>(*WidgetList.Find("Shop"));
-    UShopWidget* ShopWidget = Cast<UShopWidget>(CommonWidget);
+    //UCommonWidget* CommonWidget = ;
+    UShopWidget* ShopWidget = Cast<UShopWidget>(WidgetList.Find("Shop")->GetDefaultObject());
 
     if (nullptr != ShopWidget)
     {

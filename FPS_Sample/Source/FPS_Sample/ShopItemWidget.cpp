@@ -10,6 +10,19 @@ UShopItemWidget::UShopItemWidget()
 
 }
 
+//void UShopItemWidget::NativeConstruct()
+//{
+//	 Super::NativeConstruct()
+//}
+//
+//void UShopItemWidget::NativeOnListItemObjectSet(UObject* ListItemObject)
+//{
+//}
+//
+//void UShopItemWidget::NativeOnItemSelectionChanged(bool bIsSelected)
+//{
+//}
+
 void UShopItemWidget::Init(FShopItemData* ItemData)
 {
 	TextBlock_Title->SetText(FText::FromString(ItemData->Desc));

@@ -30,6 +30,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "ItemData")
 	FString Desc;
+
+	UPROPERTY(EditAnywhere, Category = "ItemData")
+	int Price;
 };
 
 
