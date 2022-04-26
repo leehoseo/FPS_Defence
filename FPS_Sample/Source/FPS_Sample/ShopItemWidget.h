@@ -8,7 +8,6 @@
 #include "ShopItemWidget.generated.h"
 
 class UTextBlock;
-class UButton;
 struct FShopItemData;
 /**
  * 
@@ -23,24 +22,12 @@ public:
 
 	//virtual void NativeConstruct() override;
 
-	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
-	virtual void NativeOnItemSelectionChanged(bool bIsSelected) override;
+	//virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+	//virtual void NativeOnItemSelectionChanged(bool bIsSelected) override;
 
 	void Init(FShopItemData* ItemData);
 
 
 	UPROPERTY(meta = (BIndWIdget))
 	UTextBlock* TextBlock_Title = nullptr;
-
-	UPROPERTY(meta = (BIndWIdget))
-	UTextBlock* TextBlock_Price = nullptr;
-
-	UPROPERTY(meta = (BIndWIdget))
-	UButton* Button_Buy = nullptr;
-
-	UFUNCTION()
-	void OnBuy();
-
-
-	FShopItemData* Data = nullptr;
 };
