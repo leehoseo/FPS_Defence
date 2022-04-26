@@ -20,7 +20,21 @@ public:
 public:
 	virtual void OnDead(ACommonCharacter* AttackerCharacter);
 
+	/** Make the weapon Fire a Projectile */
+	UFUNCTION(BlueprintCallable)
+	void OnAttack();
+
+	/** Make the weapon Fire a Projectile */
+	UFUNCTION(BlueprintCallable)
+	void OnOverlappedCharacter(ACommonCharacter* Target);
+
+	/** Make the weapon Fire a Projectile */
+	UFUNCTION(BlueprintCallable)
+	void OffOverlappedCharacter(ACommonCharacter* Target);
+
 private:
 	UPROPERTY(EditAnywhere, Category = Reward, meta = (AllowPrivateAccess = "true"))
 	int Reward = 10;
+
+	TArray<ACommonCharacter*> TargetCharacterList;
 };

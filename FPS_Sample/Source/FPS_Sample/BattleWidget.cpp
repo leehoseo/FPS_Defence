@@ -29,3 +29,12 @@ void UBattleWidget::UpdateMoney(const int Money)
 
 	TextBlock_Money->SetText(FText::FromString(Text_Money));
 }
+
+void UBattleWidget::UpdateHp(const int Hp)
+{
+	FString Text_Hp;
+	Text_Hp.Append("HP : ");
+	Text_Hp.Append(FString::FromInt(Hp));
+
+	TextBlock_Hp->SetText(FText::FromString(Text_Hp));
+}

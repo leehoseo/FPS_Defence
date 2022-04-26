@@ -19,6 +19,8 @@ class AFPS_SampleCharacter;
 // It is declared as dynamic so it can be accessed also in Blueprints
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUseAction);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FReloadAction);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FChangeHpAction, const int, _Owner);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeadAction, const AFPS_SampleCharacter*, _Owner);
 
 UCLASS(config=Game)
 class AFPS_SampleCharacter : public ACommonCharacter
@@ -51,6 +53,15 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Interaction")
 	FReloadAction ReloadAction;
 	
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FChangeHpAction ChangeHpAction;
+
+	UPROPERTY(BlueprintAssignable, Category = "Interaction")
+	FOnDeadAction OnDeadAction;
+
+	virtual void NotifyHp(const int& Value);
+	virtual void OnDead(ACommonCharacter* AttackerCharacter);
+
 protected:
 	
 	/** Fires a projectile. */

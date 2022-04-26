@@ -30,7 +30,6 @@ void ACommonCharacter::Tick(float DeltaTime)
 void ACommonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 void ACommonCharacter::VaryHp(const int& Value)
@@ -43,6 +42,7 @@ void ACommonCharacter::VaryHp(const int& Value)
 	}
 
 	CurrentHp = NewHp;
+	NotifyHp(CurrentHp);
 }
 
 void ACommonCharacter::OnRep_Hp()

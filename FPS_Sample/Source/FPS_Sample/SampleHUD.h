@@ -10,6 +10,7 @@ class UCommonWidget;
 class UTP_WeaponComponent;
 class UInventoryComponent;
 class ASampleGameState;
+class AFPS_SampleCharacter;
 
 /**
  * 
@@ -48,13 +49,23 @@ public:
 	UFUNCTION()
 	void UpdateTimer(const int Timer);
 
+	UFUNCTION()
+	void UpdateHp(const int Hp);
+
+	UFUNCTION()
+	void UpdateOnDead(const AFPS_SampleCharacter* SampleCharacter);
+
+
 	void AttachWeapon(UTP_WeaponComponent* WeaponComponent);
 	void AttachInventory(UInventoryComponent* InventoryComponent);
 	void AttachTimer(ASampleGameState* SampleGameState);
+	void AttachHp(AFPS_SampleCharacter* SampleCharacter);
+	void AttachOnDead(AFPS_SampleCharacter* SampleCharacter);
 
 private:
 	UCommonWidget* CurrentWidget = nullptr;
 	UTP_WeaponComponent* TargetWeaponComponent = nullptr;
 	UInventoryComponent* TargetInventoryComponent = nullptr;
 	ASampleGameState* TargetGameState = nullptr;
+	AFPS_SampleCharacter* TargetSampleCharacter = nullptr;
 };

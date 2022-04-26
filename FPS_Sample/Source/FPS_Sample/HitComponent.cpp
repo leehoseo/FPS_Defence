@@ -22,6 +22,6 @@ void UHitComponent::OnHit(ACommonCharacter* AttackerCharacter)
 	if ( nullptr != Character)
 	{
 		TSubclassOf<UDamageType> TempDamageType;
-		UGameplayStatics::ApplyDamage(GetOwner(), 1.f, AttackerCharacter->GetController(), AttackerCharacter, TempDamageType);
+		UGameplayStatics::ApplyDamage(GetOwner(), AttackerCharacter->Power, AttackerCharacter->GetController(), AttackerCharacter, TempDamageType);
 	}
 }

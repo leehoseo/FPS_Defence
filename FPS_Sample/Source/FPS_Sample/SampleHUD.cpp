@@ -8,7 +8,9 @@
 #include "TP_WeaponComponent.h"
 #include "InventoryComponent.h"
 #include "TimerWidget.h"
+#include "OnDeadWidget.h"
 #include "SampleGameState.h"
+#include "FPS_SampleCharacter.h"
 
 void ASampleHUD::BeginPlay()
 {
@@ -34,6 +36,13 @@ void ASampleHUD::EndPlay(const EEndPlayReason::Type EndPlayReason)
     {
         // Unregister from the OnUseItem Event
         TargetGameState->TimerWidgetAction.RemoveDynamic(this, &ASampleHUD::UpdateTimer);
+    }
+
+    if (TargetSampleCharacter != nullptr)
+    {
+        // Unregister from the OnUseItem Event
+        TargetSampleCharacter->ChangeHpAction.RemoveDynamic(this, &ASampleHUD::UpdateHp);
+        TargetSampleCharacter->OnDeadAction.RemoveDynamic(this, &ASampleHUD::UpdateOnDead);
     }
 }
 
@@ -76,6 +85,11 @@ void ASampleHUD::UpdateBullet(const UTP_WeaponComponent* WeaponComponent)
 {
     UBattleWidget* BattleWidget = Cast<UBattleWidget>(CurrentWidget);
 
+    if (nullptr == BattleWidget)
+    {
+        return;
+    }
+
     int OutMaxBullet = 0;
     int OutCurrentBullet = 0;
     WeaponComponent->GetBulletInfo(OutMaxBullet, OutCurrentBullet);
@@ -86,6 +100,12 @@ void ASampleHUD::UpdateBullet(const UTP_WeaponComponent* WeaponComponent)
 void ASampleHUD::UpdateMoney(const UInventoryComponent* InventoryComponent)
 {
     UBattleWidget* BattleWidget = Cast<UBattleWidget>(CurrentWidget);
+
+    if (nullptr == BattleWidget)
+    {
+        return;
+    }
+
     BattleWidget->UpdateMoney(InventoryComponent->GetCurrentMoney());
 }
 
@@ -99,6 +119,24 @@ void ASampleHUD::UpdateTimer(const int Timer )
     }
 }
 
+void ASampleHUD::UpdateHp(const int Hp)
+{
+    UBattleWidget* BattleWidget = Cast<UBattleWidget>(CurrentWidget);
+
+    if (nullptr == BattleWidget)
+    {
+        return;
+    }
+
+    BattleWidget->UpdateHp(Hp);
+}
+
+void ASampleHUD::UpdateOnDead(const AFPS_SampleCharacter* SampleCharacter)
+{
+    ChangeWidget("OnDead");
+    UOnDeadWidget* OnDeadWidget = Cast<UOnDeadWidget>(CurrentWidget);
+    OnDeadWidget->UpdateInfo(SampleCharacter);
+}
 void ASampleHUD::AttachWeapon(UTP_WeaponComponent* WeaponComponent)
 {
     TargetWeaponComponent = WeaponComponent;
@@ -115,4 +153,16 @@ void ASampleHUD::AttachTimer(ASampleGameState* SampleGameState)
 {
     TargetGameState = SampleGameState;
     TargetGameState->TimerWidgetAction.AddDynamic(this, &ASampleHUD::UpdateTimer);
+}
+
+void ASampleHUD::AttachHp(AFPS_SampleCharacter* SampleCharacter)
+{
+    TargetSampleCharacter = SampleCharacter;
+    TargetSampleCharacter->ChangeHpAction.AddDynamic(this, &ASampleHUD::UpdateHp);
+}
+
+void ASampleHUD::AttachOnDead(AFPS_SampleCharacter* SampleCharacter)
+{
+    TargetSampleCharacter = SampleCharacter;
+    TargetSampleCharacter->OnDeadAction.AddDynamic(this, &ASampleHUD::UpdateOnDead);
 }

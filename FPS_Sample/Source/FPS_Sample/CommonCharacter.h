@@ -28,6 +28,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void VaryHp(const int& Value);
+	virtual void NotifyHp(const int& Value) {};
 
 	UFUNCTION()
 	void OnRep_Hp();
@@ -39,9 +40,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = Character, meta = (AllowPrivateAccess = "true"))
 	int MaxHp = 10;
 
+	UPROPERTY(EditAnywhere, Category = Character, meta = (AllowPrivateAccess = "true"))
+	float Power = 1.f;
+
 	// 데미지 처리
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void OnDead(ACommonCharacter* AttackerCharacter) {};
+	
+	int TeamNo = 0;
+
 private:
 	int CharacterKey = 0;
 };

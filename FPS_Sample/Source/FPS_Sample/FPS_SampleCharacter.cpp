@@ -7,7 +7,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
-
+#include "Kismet/GameplayStatics.h"
+#include "SampleHUD.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AFPS_SampleCharacter
@@ -42,6 +43,11 @@ void AFPS_SampleCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
+	ASampleHUD* Hud = Cast<ASampleHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
+	Hud->AttachHp(this);
+	NotifyHp(CurrentHp);
+
+	Hud->AttachOnDead(this);
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -73,6 +79,16 @@ void AFPS_SampleCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 	PlayerInputComponent->BindAxis("Look Up / Down Mouse", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("Turn Right / Left Gamepad", this, &AFPS_SampleCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("Look Up / Down Gamepad", this, &AFPS_SampleCharacter::LookUpAtRate);
+}
+
+void AFPS_SampleCharacter::NotifyHp(const int& Value)
+{
+	ChangeHpAction.Broadcast(Value);
+}
+
+void AFPS_SampleCharacter::OnDead(ACommonCharacter* AttackerCharacter)
+{
+	OnDeadAction.Broadcast(this);
 }
 
 void AFPS_SampleCharacter::OnPrimaryAction()
