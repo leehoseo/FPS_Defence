@@ -7,8 +7,38 @@
 #include "ShopWidget.generated.h"
 
 class UListView;
-class UShopComponent;
 struct FShopItemData;
+
+
+UENUM(BlueprintType)
+enum class EItemType :uint8
+{
+	eEItemType_Weapon		UMETA(DisplayName = "Weapon"),
+	eEItemType_PowerBullet	UMETA(DisplayName = "Power Bullet"),
+	eEItemType_Hp			UMETA(DisplayName = "Hp"),
+};
+
+USTRUCT(BlueprintType)
+struct FShopItemData
+{
+	GENERATED_BODY()
+
+public:
+	FShopItemData() {};
+
+	UPROPERTY(EditAnywhere, Category = "ItemData")
+		EItemType Type = EItemType::eEItemType_Weapon;
+
+	UPROPERTY(EditAnywhere, Category = "ItemData")
+		int Param = 0;
+
+	UPROPERTY(EditAnywhere, Category = "ItemData")
+		FString Desc;
+
+	UPROPERTY(EditAnywhere, Category = "ItemData")
+		int Price;
+};
+
 /**
  * 
  */
@@ -23,16 +53,12 @@ public:
 
 	void CreateShopItem(FShopItemData* ItemData);
 
-	/** Make the weapon Fire a Projectile */
-	UFUNCTION(BlueprintCallable, Category = "Shop")
-	void AttachShopComponent(UShopComponent* NewShopComponet);
-
 	/** Projectile class to spawn */
 	UPROPERTY(EditAnywhere, Category = "Shop")
 	TSubclassOf<class UShopItemWidget> OriginClass;
 
-	UPROPERTY(EditAnywhere, Category = "Shop")
-	UShopComponent* ShopComponet = nullptr;
+	UPROPERTY(EditAnywhere, Category = "ItemData")
+	TArray<FShopItemData> ItemDataList;
 
 	UPROPERTY(meta = (BIndWIdget))
 	UListView* List_Shop = nullptr;

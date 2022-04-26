@@ -45,6 +45,7 @@ void UTP_WeaponComponent::Fire()
 	
 			// Spawn the projectile at the muzzle
 			AFPS_SampleProjectile* NewProjectile = World->SpawnActor<AFPS_SampleProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+ 			float Power = ProjectileClass->GetDefaultObject<AFPS_SampleProjectile>()->Power;
 
 			if (nullptr != NewProjectile)
 			{
@@ -75,6 +76,8 @@ void UTP_WeaponComponent::Fire()
 
 void UTP_WeaponComponent::Reload()
 {
+
+
 	VaryBullet(MaxBullet - CurrentBullet);
 }
 
