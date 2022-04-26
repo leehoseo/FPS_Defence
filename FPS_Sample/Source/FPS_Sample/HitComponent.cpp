@@ -18,12 +18,7 @@ void UHitComponent::BeginPlay()
 void UHitComponent::OnHit(ACommonCharacter* AttackerCharacter)
 {
 	// Checking if it is a First Person Character overlapping
-	ACommonCharacter* Character = Cast<ACommonCharacter>(GetOwner());
-	if ( nullptr != Character)
-	{
-		TSubclassOf<UDamageType> TempDamageType;
-		UGameplayStatics::ApplyDamage(GetOwner(), AttackerCharacter->Power, AttackerCharacter->GetController(), AttackerCharacter, TempDamageType);
-	}
+	OnHit(AttackerCharacter, AttackerCharacter->Power);
 }
 
 void UHitComponent::OnHit(ACommonCharacter* AttackerCharacter, const float Power)
@@ -35,4 +30,12 @@ void UHitComponent::OnHit(ACommonCharacter* AttackerCharacter, const float Power
 		TSubclassOf<UDamageType> TempDamageType;
 		UGameplayStatics::ApplyDamage(GetOwner(), Power, AttackerCharacter->GetController(), AttackerCharacter, TempDamageType);
 	}
+
+	// BlueprintEvent »£√‚
+	NotifyOnHit(AttackerCharacter, Power);
 }
+
+//void UHitComponent::NotifyOnHit_Implementation(ACommonCharacter* AttackerCharacter, const float Power)
+//{
+//
+//}

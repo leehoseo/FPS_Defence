@@ -11,6 +11,7 @@
 #include "OnDeadWidget.h"
 #include "SampleGameState.h"
 #include "FPS_SampleCharacter.h"
+#include "ShopWIdget.h"
 
 void ASampleHUD::BeginPlay()
 {
@@ -137,6 +138,18 @@ void ASampleHUD::UpdateOnDead(const AFPS_SampleCharacter* SampleCharacter)
     UOnDeadWidget* OnDeadWidget = Cast<UOnDeadWidget>(CurrentWidget);
     OnDeadWidget->UpdateInfo(SampleCharacter);
 }
+
+void ASampleHUD::CreateShopItem(FShopItemData* ShopItemData)
+{
+    UCommonWidget* CommonWidget = Cast<UShopWidget>(*WidgetList.Find("Shop"));
+    UShopWidget* ShopWidget = Cast<UShopWidget>(CommonWidget);
+
+    if (nullptr != ShopWidget)
+    {
+        ShopWidget->CreateShopItem(ShopItemData);
+    }
+}
+
 void ASampleHUD::AttachWeapon(UTP_WeaponComponent* WeaponComponent)
 {
     TargetWeaponComponent = WeaponComponent;

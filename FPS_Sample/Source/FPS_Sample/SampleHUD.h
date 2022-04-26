@@ -11,7 +11,7 @@ class UTP_WeaponComponent;
 class UInventoryComponent;
 class ASampleGameState;
 class AFPS_SampleCharacter;
-
+struct FShopItemData;
 /**
  * 
  */
@@ -55,6 +55,7 @@ public:
 	UFUNCTION()
 	void UpdateOnDead(const AFPS_SampleCharacter* SampleCharacter);
 
+	void CreateShopItem(FShopItemData* ShopItemData);
 
 	void AttachWeapon(UTP_WeaponComponent* WeaponComponent);
 	void AttachInventory(UInventoryComponent* InventoryComponent);

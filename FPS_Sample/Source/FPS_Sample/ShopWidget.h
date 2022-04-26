@@ -6,6 +6,8 @@
 #include "CommonWidget.h"
 #include "ShopWidget.generated.h"
 
+class UListView;
+struct FShopItemData;
 /**
  * 
  */
@@ -14,4 +16,11 @@ class FPS_SAMPLE_API UShopWidget : public UCommonWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UShopWidget();
+
+	void CreateShopItem(FShopItemData* ItemData);
+
+	UPROPERTY(meta = (BIndWIdget))
+	UListView* List_Shop = nullptr;
 };

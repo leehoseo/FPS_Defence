@@ -2,6 +2,8 @@
 
 
 #include "ShopComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "SampleHUD.h"
 
 // Sets default values for this component's properties
 UShopComponent::UShopComponent()
@@ -20,7 +22,11 @@ void UShopComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	ASampleHUD* Hud = Cast<ASampleHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
+	for (FShopItemData& Data : ItemDataList)
+	{
+		Hud->CreateShopItem(&Data);
+	}
 }
 
 
