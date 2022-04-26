@@ -25,3 +25,14 @@ void UHitComponent::OnHit(ACommonCharacter* AttackerCharacter)
 		UGameplayStatics::ApplyDamage(GetOwner(), AttackerCharacter->Power, AttackerCharacter->GetController(), AttackerCharacter, TempDamageType);
 	}
 }
+
+void UHitComponent::OnHit(ACommonCharacter* AttackerCharacter, const float Power)
+{
+	// Checking if it is a First Person Character overlapping
+	ACommonCharacter* Character = Cast<ACommonCharacter>(GetOwner());
+	if (nullptr != Character)
+	{
+		TSubclassOf<UDamageType> TempDamageType;
+		UGameplayStatics::ApplyDamage(GetOwner(), Power, AttackerCharacter->GetController(), AttackerCharacter, TempDamageType);
+	}
+}

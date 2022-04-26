@@ -19,6 +19,7 @@ public:
 	UHitComponent();
 
 	void OnHit(ACommonCharacter* AttackerCharacter);
+	void OnHit(ACommonCharacter* AttackerCharacter, const float Power);
 
 protected:
 
