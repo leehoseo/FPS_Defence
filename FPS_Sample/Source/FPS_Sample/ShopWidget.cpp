@@ -15,29 +15,9 @@ void UShopWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (nullptr == ShopComponet)
+	for (FShopItemData& Data : ItemDataList)
 	{
-		return;
-	}
-
-	for (FShopItemData& Data : ShopComponet->ItemDataList)
-	{
-		UShopItemWidget* ItemWidget = CreateWidget<UShopItemWidget>(this, OriginClass);
-		if (nullptr != ItemWidget)
-		{
-			ItemWidget->Init(&Data);
-			List_Shop->AddItem(ItemWidget);
-		}
-	}
-}
-
-void UShopWidget::AttachShopComponent(UShopComponent* NewShopComponet)
-{
-	ShopComponet = NewShopComponet;
-
-	for (FShopItemData& Data : ShopComponet->ItemDataList)
-	{
-		UShopItemWidget* ItemWidget = CreateWidget<UShopItemWidget>(this, OriginClass);
+		UShopItemWidget* ItemWidget = CreateWidget<UShopItemWidget>(GetWorld(), OriginClass);
 		if (nullptr != ItemWidget)
 		{
 			ItemWidget->Init(&Data);

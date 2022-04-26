@@ -21,12 +21,7 @@ void UShopComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	ASampleHUD* Hud = Cast<ASampleHUD>(UGameplayStatics::GetPlayerController(this, 0)->GetHUD());
-	for (FShopItemData& Data : ItemDataList)
-	{
-		Hud->CreateShopItem(&Data);
-	}
+
 }
 
 
