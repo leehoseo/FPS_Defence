@@ -10,7 +10,8 @@ class ACommonCharacter;
 /**
  * 
  */
-UCLASS()
+
+UCLASS(meta = (BlueprintSpawnableComponent))
 class FPS_SAMPLE_API UHitComponent : public UPrimitiveComponent
 {
 	GENERATED_BODY()
